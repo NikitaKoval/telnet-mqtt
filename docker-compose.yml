@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mqtt:
+    image: eclipse-mosquitto:2.0.15
+    ports:
+      - '1883:1883'
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+  server:
+    build: .
+    environment:
+      MQTT_HOST: mqtt
+      MQTT_PORT: 1883
+    ports:
+      - '1234:1234'
+    depends_on:
+      - mqtt
